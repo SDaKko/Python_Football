@@ -1,0 +1,2662 @@
+@prefix : <http://example.org/football-ise/> .
+@prefix ex: <http://example.org/football-ise/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.org/football-ise/> .
+
+<http://example.org/football-ise/> rdf:type owl:Ontology ;
+                                    rdfs:comment "Модель наблюдения -> оценки -> решения -> исполнения -> исхода, с контекстом матча и ограничениями правил."@ru ;
+                                    rdfs:label "Оценивание игроками ситуации при игре в футбол"@ru .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+<http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/football-ise/basedOnEvaluation
+ex:basedOnEvaluation rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ,
+                              owl:AsymmetricProperty ,
+                              owl:IrreflexiveProperty ;
+                     rdfs:domain ex:Decision ;
+                     rdfs:range ex:SituationEvaluation ;
+                     rdfs:comment "Решение принимается на основе оценки ситуации"@ru ,
+                                  "основано на оценке"@ru .
+
+
+###  http://example.org/football-ise/belongsToTeam
+ex:belongsToTeam rdf:type owl:ObjectProperty ,
+                          owl:FunctionalProperty ,
+                          owl:AsymmetricProperty ,
+                          owl:IrreflexiveProperty ;
+                 rdfs:domain ex:Player ;
+                 rdfs:range ex:Team ;
+                 rdfs:comment "принадлежит команде"@ru .
+
+
+###  http://example.org/football-ise/chosenOption
+ex:chosenOption rdf:type owl:ObjectProperty ,
+                         owl:FunctionalProperty ,
+                         owl:AsymmetricProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain ex:Decision ;
+                rdfs:range ex:ActionOption ;
+                rdfs:comment "Функциональное свойство: в один момент выбран ровно один вариант."@ru ,
+                             "выбранный вариант"@ru .
+
+
+###  http://example.org/football-ise/considersOptions
+ex:considersOptions rdf:type owl:ObjectProperty ,
+                             owl:AsymmetricProperty ,
+                             owl:IrreflexiveProperty ;
+                    rdfs:domain ex:SituationEvaluation ;
+                    rdfs:range ex:ActionOption ;
+                    rdfs:comment "Оценка ситуации включает анализ доступных вариантов действий"@ru ,
+                                 "рассматривает варианты"@ru .
+
+
+###  http://example.org/football-ise/considersPressure
+ex:considersPressure rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ,
+                              owl:AsymmetricProperty ,
+                              owl:IrreflexiveProperty ;
+                     rdfs:domain ex:SituationEvaluation ;
+                     rdfs:range ex:PressureLevel ;
+                     rdfs:comment "учитывает давление"@ru .
+
+
+###  http://example.org/football-ise/considersSpace
+ex:considersSpace rdf:type owl:ObjectProperty ,
+                           owl:FunctionalProperty ,
+                           owl:AsymmetricProperty ,
+                           owl:IrreflexiveProperty ;
+                  rdfs:domain ex:SituationEvaluation ;
+                  rdfs:range ex:SpaceAvailability ;
+                  rdfs:comment "учитывает пространство"@ru .
+
+
+###  http://example.org/football-ise/executes
+ex:executes rdf:type owl:ObjectProperty ,
+                     owl:FunctionalProperty ,
+                     owl:AsymmetricProperty ,
+                     owl:IrreflexiveProperty ;
+            rdfs:domain ex:Decision ;
+            rdfs:range ex:ActionExecution ;
+            rdfs:comment "реализует (исполнение)"@ru .
+
+
+###  http://example.org/football-ise/hasActionType
+ex:hasActionType rdf:type owl:ObjectProperty ,
+                          owl:FunctionalProperty ,
+                          owl:AsymmetricProperty ,
+                          owl:IrreflexiveProperty ;
+                 rdfs:domain ex:ActionOption ;
+                 rdfs:range ex:ActionType ;
+                 rdfs:comment "имеет тип действия"@ru .
+
+
+###  http://example.org/football-ise/hasConstraintType
+ex:hasConstraintType rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ,
+                              owl:AsymmetricProperty ,
+                              owl:IrreflexiveProperty ;
+                     rdfs:domain ex:Constraint ;
+                     rdfs:range ex:ConstraintType ;
+                     rdfs:comment "имеет тип ограничения"@ru .
+
+
+###  http://example.org/football-ise/hasContext
+ex:hasContext rdf:type owl:ObjectProperty ,
+                       owl:FunctionalProperty ,
+                       owl:AsymmetricProperty ,
+                       owl:IrreflexiveProperty ;
+              rdfs:domain ex:Situation ;
+              rdfs:range ex:Context ;
+              rdfs:comment "имеет контекст"@ru .
+
+
+###  http://example.org/football-ise/hasOutcome
+ex:hasOutcome rdf:type owl:ObjectProperty ,
+                       owl:FunctionalProperty ,
+                       owl:AsymmetricProperty ,
+                       owl:IrreflexiveProperty ;
+              rdfs:domain ex:ActionExecution ;
+              rdfs:range ex:Outcome ;
+              rdfs:comment "имеет исход"@ru .
+
+
+###  http://example.org/football-ise/hasPhase
+ex:hasPhase rdf:type owl:ObjectProperty ,
+                     owl:FunctionalProperty ,
+                     owl:AsymmetricProperty ,
+                     owl:IrreflexiveProperty ;
+            rdfs:domain ex:Situation ;
+            rdfs:range ex:Phase ;
+            rdfs:comment "находится в фазе"@ru .
+
+
+###  http://example.org/football-ise/influence
+ex:influence rdf:type owl:ObjectProperty ,
+                      owl:AsymmetricProperty ,
+                      owl:IrreflexiveProperty ;
+             rdfs:domain ex:CoachInstructions ;
+             rdfs:range ex:Decision ;
+             rdfs:comment "influence" .
+
+
+###  http://example.org/football-ise/influences
+ex:influences rdf:type owl:ObjectProperty ,
+                       owl:AsymmetricProperty ,
+                       owl:IrreflexiveProperty ;
+              rdfs:domain ex:Context ;
+              rdfs:range ex:Decision ;
+              rdfs:comment "influences" .
+
+
+###  http://example.org/football-ise/involvesPlayer
+ex:involvesPlayer rdf:type owl:ObjectProperty ,
+                           owl:AsymmetricProperty ,
+                           owl:IrreflexiveProperty ;
+                  rdfs:domain ex:Player ;
+                  rdfs:range ex:Situation ;
+                  rdfs:comment "участвует в"@ru .
+
+
+###  http://example.org/football-ise/isCharacterizedBy
+ex:isCharacterizedBy rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ,
+                              owl:AsymmetricProperty ,
+                              owl:IrreflexiveProperty ;
+                     rdfs:domain ex:Situation ;
+                     rdfs:range ex:SituationEvaluation ;
+                     rdfs:comment "Characterized by" .
+
+
+###  http://example.org/football-ise/limitedBy
+ex:limitedBy rdf:type owl:ObjectProperty ,
+                      owl:AsymmetricProperty ,
+                      owl:IrreflexiveProperty ;
+             rdfs:domain ex:ActionOption ;
+             rdfs:range ex:Constraint ;
+             rdfs:comment "ограничено правилом"@ru .
+
+
+###  http://example.org/football-ise/madeByPlayer
+ex:madeByPlayer rdf:type owl:ObjectProperty ,
+                         owl:AsymmetricProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain ex:Player ;
+                rdfs:range ex:Decision ;
+                rdfs:comment "Принимает решение"@ru .
+
+
+###  http://example.org/football-ise/occursInZone
+ex:occursInZone rdf:type owl:ObjectProperty ,
+                         owl:FunctionalProperty ,
+                         owl:AsymmetricProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain ex:Situation ;
+                rdfs:range ex:Zone ;
+                rdfs:comment "происходит в зоне"@ru .
+
+
+###  http://example.org/football-ise/offersOption
+ex:offersOption rdf:type owl:ObjectProperty ,
+                         owl:AsymmetricProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain ex:Situation ;
+                rdfs:range ex:ActionOption ;
+                rdfs:comment "порождает вариант"@ru .
+
+
+###  http://example.org/football-ise/performedByPlayer
+ex:performedByPlayer rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ,
+                              owl:AsymmetricProperty ,
+                              owl:IrreflexiveProperty ;
+                     rdfs:domain ex:ActionExecution ;
+                     rdfs:range ex:Player ;
+                     rdfs:comment "выполнено игроком"@ru .
+
+
+###  http://example.org/football-ise/subjectToConstraint
+ex:subjectToConstraint rdf:type owl:ObjectProperty ,
+                                owl:AsymmetricProperty ,
+                                owl:IrreflexiveProperty ;
+                       rdfs:domain ex:Situation ;
+                       rdfs:range ex:Constraint ;
+                       rdfs:comment "Ситуация подвержена определенным ограничениям/правилам"@ru ,
+                                    "подвержена ограничению"@ru .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/football-ise/angleToGoal
+ex:angleToGoal rdf:type owl:DatatypeProperty ,
+                        owl:FunctionalProperty ;
+               rdfs:domain ex:SituationEvaluation ;
+               rdfs:range xsd:decimal ;
+               rdfs:comment "угол к воротам (градусы)"@ru .
+
+
+###  http://example.org/football-ise/constraintSeverity
+ex:constraintSeverity rdf:type owl:DatatypeProperty ,
+                               owl:FunctionalProperty ;
+                      rdfs:domain ex:Constraint ;
+                      rdfs:range xsd:decimal ;
+                      rdfs:comment "степень влияния ограничения (0..1)"@ru .
+
+
+###  http://example.org/football-ise/decisionTime
+ex:decisionTime rdf:type owl:DatatypeProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain ex:Decision ;
+                rdfs:range xsd:decimal ;
+                rdfs:comment "время принятия решения (секунды)"@ru .
+
+
+###  http://example.org/football-ise/distanceToNearestDefender
+ex:distanceToNearestDefender rdf:type owl:DatatypeProperty ,
+                                      owl:FunctionalProperty ;
+                             rdfs:domain ex:SituationEvaluation ;
+                             rdfs:range xsd:decimal ;
+                             rdfs:comment "дистанция до ближайшего защитника (м)"@ru .
+
+
+###  http://example.org/football-ise/expectedValue
+ex:expectedValue rdf:type owl:DatatypeProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain ex:SituationEvaluation ;
+                 rdfs:range xsd:decimal ;
+                 rdfs:comment "Абстрактная xEV — вероятностная польза/гол-эквивалент"@ru ,
+                              "ожидаемая ценность действия (0..1)"@ru .
+
+
+###  http://example.org/football-ise/isCounterAttack
+ex:isCounterAttack rdf:type owl:DatatypeProperty ,
+                            owl:FunctionalProperty ;
+                   rdfs:domain ex:Context ;
+                   rdfs:range xsd:boolean ;
+                   rdfs:comment "контратака?"@ru .
+
+
+###  http://example.org/football-ise/matchMinute
+ex:matchMinute rdf:type owl:DatatypeProperty ,
+                        owl:FunctionalProperty ;
+               rdfs:domain ex:Context ;
+               rdfs:range xsd:int ;
+               rdfs:comment "минута матча"@ru .
+
+
+###  http://example.org/football-ise/optionSuccessProbability
+ex:optionSuccessProbability rdf:type owl:DatatypeProperty ,
+                                     owl:FunctionalProperty ;
+                            rdfs:domain ex:SituationEvaluation ;
+                            rdfs:range xsd:decimal ;
+                            rdfs:comment "вероятность успеха варианта (0..1)"@ru .
+
+
+###  http://example.org/football-ise/playerPositionX
+ex:playerPositionX rdf:type owl:DatatypeProperty ,
+                            owl:FunctionalProperty ;
+                   rdfs:domain ex:Player ;
+                   rdfs:range xsd:decimal ;
+                   rdfs:comment "позиция игрока по X"@ru .
+
+
+###  http://example.org/football-ise/playerPositionY
+ex:playerPositionY rdf:type owl:DatatypeProperty ,
+                            owl:FunctionalProperty ;
+                   rdfs:domain ex:Player ;
+                   rdfs:range xsd:decimal ;
+                   rdfs:comment "позиция игрока по Y"@ru .
+
+
+###  http://example.org/football-ise/scoreDiff
+ex:scoreDiff rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain ex:Context ;
+             rdfs:range xsd:int ;
+             rdfs:comment "разница в счёте (свои - чужие)"@ru .
+
+
+###  http://example.org/football-ise/timePressure
+ex:timePressure rdf:type owl:DatatypeProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain ex:SituationEvaluation ;
+                rdfs:range xsd:decimal ;
+                rdfs:comment "временное давление (0..1)"@ru .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/football-ise/ActionExecution
+ex:ActionExecution rdf:type owl:Class ;
+                   rdfs:comment "Исполнение действия"@ru .
+
+
+###  http://example.org/football-ise/ActionOption
+ex:ActionOption rdf:type owl:Class ;
+                rdfs:comment "Вариант действия"@ru .
+
+
+###  http://example.org/football-ise/ActionType
+ex:ActionType rdf:type owl:Class ;
+              rdfs:comment "Тип действия"@ru .
+
+
+###  http://example.org/football-ise/ChallengingSituation
+ex:ChallengingSituation rdf:type owl:Class .
+
+
+###  http://example.org/football-ise/CoachInstructions
+ex:CoachInstructions rdf:type owl:Class ;
+                     rdfs:comment "Установки тренера" .
+
+
+###  http://example.org/football-ise/Constraint
+ex:Constraint rdf:type owl:Class ;
+              rdfs:comment "Ограничение/правило"@ru .
+
+
+###  http://example.org/football-ise/ConstraintType
+ex:ConstraintType rdf:type owl:Class ;
+                  rdfs:comment "Тип ограничения"@ru .
+
+
+###  http://example.org/football-ise/Context
+ex:Context rdf:type owl:Class ;
+           rdfs:comment "Контекст матча"@ru .
+
+
+###  http://example.org/football-ise/CriticalAttackingSituation
+ex:CriticalAttackingSituation rdf:type owl:Class .
+
+
+###  http://example.org/football-ise/Decision
+ex:Decision rdf:type owl:Class ;
+            rdfs:comment "Решение"@ru .
+
+
+###  http://example.org/football-ise/EffectivePassingDecision
+ex:EffectivePassingDecision rdf:type owl:Class .
+
+
+###  http://example.org/football-ise/FoulConstrainedAction
+ex:FoulConstrainedAction rdf:type owl:Class .
+
+
+###  http://example.org/football-ise/HighEfficiencyDecision
+ex:HighEfficiencyDecision rdf:type owl:Class .
+
+
+###  http://example.org/football-ise/OffsideConstrainedAction
+ex:OffsideConstrainedAction rdf:type owl:Class .
+
+
+###  http://example.org/football-ise/Outcome
+ex:Outcome rdf:type owl:Class ;
+           rdfs:comment "Исход"@ru .
+
+
+###  http://example.org/football-ise/Phase
+ex:Phase rdf:type owl:Class ;
+         rdfs:comment "Фаза игры"@ru .
+
+
+###  http://example.org/football-ise/Player
+ex:Player rdf:type owl:Class ;
+          rdfs:comment "Игрок"@ru .
+
+
+###  http://example.org/football-ise/PressureLevel
+ex:PressureLevel rdf:type owl:Class ;
+                 rdfs:comment "Уровень давления"@ru .
+
+
+###  http://example.org/football-ise/PromisingSituation
+ex:PromisingSituation rdf:type owl:Class .
+
+
+###  http://example.org/football-ise/QuickPressureDecision
+ex:QuickPressureDecision rdf:type owl:Class .
+
+
+###  http://example.org/football-ise/Situation
+ex:Situation rdf:type owl:Class ;
+             rdfs:comment "Ситуация"@ru .
+
+
+###  http://example.org/football-ise/SituationEvaluation
+ex:SituationEvaluation rdf:type owl:Class ;
+                       rdfs:comment "Оценка ситуации"@ru .
+
+
+###  http://example.org/football-ise/SpaceAvailability
+ex:SpaceAvailability rdf:type owl:Class ;
+                     rdfs:comment "Свободное пространство"@ru .
+
+
+###  http://example.org/football-ise/Team
+ex:Team rdf:type owl:Class ;
+        rdfs:comment "Команда"@ru .
+
+
+###  http://example.org/football-ise/Zone
+ex:Zone rdf:type owl:Class ;
+        rdfs:comment "Зона поля"@ru .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/football-ise/AttackingThird
+ex:AttackingThird rdf:type owl:NamedIndividual ,
+                           ex:Zone ;
+                  rdfs:label "Атакующая треть"@ru .
+
+
+###  http://example.org/football-ise/BackPass
+ex:BackPass rdf:type owl:NamedIndividual ,
+                     ex:ActionOption ,
+                     ex:FoulConstrainedAction ;
+            ex:hasActionType ex:PassType ;
+            ex:limitedBy ex:BackPassRule ;
+            rdfs:label "Пас назад"@ru .
+
+
+###  http://example.org/football-ise/BackPassRule
+ex:BackPassRule rdf:type owl:NamedIndividual ,
+                         ex:Constraint ;
+                ex:hasConstraintType ex:FoulType ;
+                ex:constraintSeverity 0.5 ;
+                rdfs:label "Правило паса вратарю"@ru .
+
+
+###  http://example.org/football-ise/BoundaryType
+ex:BoundaryType rdf:type owl:NamedIndividual ,
+                         ex:ConstraintType ;
+                rdfs:label "Тип: Граница"@ru .
+
+
+###  http://example.org/football-ise/BoxPressure
+ex:BoxPressure rdf:type owl:NamedIndividual ,
+                        ex:Phase ;
+               rdfs:label "Давление у штрафной"@ru .
+
+
+###  http://example.org/football-ise/BuildUp
+ex:BuildUp rdf:type owl:NamedIndividual ,
+                    ex:Phase ;
+           rdfs:label "Построение атаки"@ru .
+
+
+###  http://example.org/football-ise/CAM10
+ex:CAM10 rdf:type owl:NamedIndividual ,
+                  ex:Player ;
+         ex:belongsToTeam ex:TeamA ;
+         ex:involvesPlayer ex:Sit_2 ,
+                           ex:Sit_9 ;
+         ex:madeByPlayer ex:Dec_4 ;
+         ex:playerPositionX 70.0 ;
+         ex:playerPositionY 50.0 ;
+         rdfs:label "Атакующий полузащитник #10"@ru .
+
+
+###  http://example.org/football-ise/CB5
+ex:CB5 rdf:type owl:NamedIndividual ,
+                ex:Player ;
+       ex:belongsToTeam ex:TeamA ;
+       ex:involvesPlayer ex:Sit_10 ,
+                         ex:Sit_7 ;
+       ex:madeByPlayer ex:Dec_10 ;
+       ex:playerPositionX 40.0 ;
+       ex:playerPositionY 50.0 ;
+       rdfs:label "Центральный защитник #5"@ru .
+
+
+###  http://example.org/football-ise/CB6
+ex:CB6 rdf:type owl:NamedIndividual ,
+                ex:Player ;
+       ex:belongsToTeam ex:TeamA ;
+       ex:involvesPlayer ex:Sit_7 ;
+       ex:madeByPlayer ex:Dec_10 ;
+       ex:playerPositionX 40.0 ;
+       ex:playerPositionY 60.0 ;
+       rdfs:label "Центральный защитник #6"@ru .
+
+
+###  http://example.org/football-ise/CDM4
+ex:CDM4 rdf:type owl:NamedIndividual ,
+                 ex:Player ;
+        ex:belongsToTeam ex:TeamA ;
+        ex:involvesPlayer ex:Sit_3 ,
+                          ex:Sit_4 ,
+                          ex:Sit_7 ;
+        ex:madeByPlayer ex:Dec_7 ;
+        ex:playerPositionX 55.0 ;
+        ex:playerPositionY 50.0 ;
+        rdfs:label "Опорный полузащитник #4"@ru .
+
+
+###  http://example.org/football-ise/CM8
+ex:CM8 rdf:type owl:NamedIndividual ,
+                ex:Player ;
+       ex:belongsToTeam ex:TeamA ;
+       ex:involvesPlayer ex:Sit_2 ,
+                         ex:Sit_3 ,
+                         ex:Sit_4 ;
+       ex:madeByPlayer ex:Dec_2 ,
+                       ex:Dec_3 ;
+       ex:playerPositionX 65.0 ;
+       ex:playerPositionY 50.0 ;
+       rdfs:label "Центр. полузащитник #8"@ru .
+
+
+###  http://example.org/football-ise/CardType
+ex:CardType rdf:type owl:NamedIndividual ,
+                     ex:ConstraintType ;
+            rdfs:label "Тип: Карточка"@ru .
+
+
+###  http://example.org/football-ise/CenterCircle
+ex:CenterCircle rdf:type owl:NamedIndividual ,
+                         ex:Zone ;
+                rdfs:label "Центральный круг"@ru .
+
+
+###  http://example.org/football-ise/CenterSpot
+ex:CenterSpot rdf:type owl:NamedIndividual ,
+                       ex:Zone ;
+              rdfs:label "Центральная точка"@ru .
+
+
+###  http://example.org/football-ise/ChannelSpace
+ex:ChannelSpace rdf:type owl:NamedIndividual ,
+                         ex:SpaceAvailability ;
+                rdfs:label "Коридор"@ru .
+
+
+###  http://example.org/football-ise/ChipShot
+ex:ChipShot rdf:type owl:NamedIndividual ,
+                     ex:ActionOption ,
+                     ex:OffsideConstrainedAction ;
+            ex:hasActionType ex:ShotType ;
+            ex:limitedBy ex:OffsideRule ;
+            rdfs:label "Подкидка"@ru .
+
+
+###  http://example.org/football-ise/Clearance
+ex:Clearance rdf:type owl:NamedIndividual ,
+                      ex:ActionOption ,
+                      ex:FoulConstrainedAction ;
+             ex:hasActionType ex:DefensiveType ;
+             ex:limitedBy ex:FoulRule ;
+             rdfs:label "Вынос"@ru .
+
+
+###  http://example.org/football-ise/Coaching_CounterAttack
+ex:Coaching_CounterAttack rdf:type owl:NamedIndividual ,
+                                   ex:CoachInstructions ;
+                          ex:influence ex:Dec_6 ;
+                          rdfs:label "Установка: Игра на контратаку"@ru .
+
+
+###  http://example.org/football-ise/Coaching_HighPress
+ex:Coaching_HighPress rdf:type owl:NamedIndividual ,
+                               ex:CoachInstructions ;
+                      ex:influence ex:Dec_5 ;
+                      rdfs:label "Установка: Высокий прессинг"@ru .
+
+
+###  http://example.org/football-ise/Coaching_ManMark
+ex:Coaching_ManMark rdf:type owl:NamedIndividual ,
+                             ex:CoachInstructions ;
+                    rdfs:label "Установка: Персональная опека"@ru .
+
+
+###  http://example.org/football-ise/Coaching_PlayOutFromBack
+ex:Coaching_PlayOutFromBack rdf:type owl:NamedIndividual ,
+                                     ex:CoachInstructions ;
+                            ex:influence ex:Dec_10 ;
+                            rdfs:label "Установка: Игра от ворот"@ru .
+
+
+###  http://example.org/football-ise/Coaching_PlayThroughMidfield
+ex:Coaching_PlayThroughMidfield rdf:type owl:NamedIndividual ,
+                                         ex:CoachInstructions ;
+                                ex:influence ex:Dec_4 ;
+                                rdfs:label "Установка: Игра через центр"@ru .
+
+
+###  http://example.org/football-ise/Coaching_Possession
+ex:Coaching_Possession rdf:type owl:NamedIndividual ,
+                                ex:CoachInstructions ;
+                       ex:influence ex:Dec_7 ;
+                       rdfs:label "Установка: Сохранение владения"@ru .
+
+
+###  http://example.org/football-ise/Coaching_ShootOnSight
+ex:Coaching_ShootOnSight rdf:type owl:NamedIndividual ,
+                                  ex:CoachInstructions ;
+                         ex:influence ex:Dec_9 ;
+                         rdfs:label "Установка: Бить при первой возможности"@ru .
+
+
+###  http://example.org/football-ise/Coaching_StayCompact
+ex:Coaching_StayCompact rdf:type owl:NamedIndividual ,
+                                 ex:CoachInstructions ;
+                        rdfs:label "Установка: Оставаться компактными"@ru .
+
+
+###  http://example.org/football-ise/Coaching_TimeWasting
+ex:Coaching_TimeWasting rdf:type owl:NamedIndividual ,
+                                 ex:CoachInstructions ;
+                        rdfs:label "Установка: Тянуть время"@ru .
+
+
+###  http://example.org/football-ise/Coaching_UseWingers
+ex:Coaching_UseWingers rdf:type owl:NamedIndividual ,
+                                ex:CoachInstructions ;
+                       ex:influence ex:Dec_8 ;
+                       rdfs:label "Установка: Задействовать крайних"@ru .
+
+
+###  http://example.org/football-ise/CornerArea
+ex:CornerArea rdf:type owl:NamedIndividual ,
+                       ex:Zone ;
+              rdfs:label "Угловая зона"@ru .
+
+
+###  http://example.org/football-ise/CornerRule
+ex:CornerRule rdf:type owl:NamedIndividual ,
+                       ex:Constraint ;
+              ex:hasConstraintType ex:BoundaryType ;
+              ex:constraintSeverity 0.4 ;
+              rdfs:label "Правило углового"@ru .
+
+
+###  http://example.org/football-ise/CounterAttack
+ex:CounterAttack rdf:type owl:NamedIndividual ,
+                          ex:Phase ;
+                 rdfs:label "Контратака"@ru .
+
+
+###  http://example.org/football-ise/CounterPress
+ex:CounterPress rdf:type owl:NamedIndividual ,
+                         ex:Phase ;
+                rdfs:label "Контрпрессинг"@ru .
+
+
+###  http://example.org/football-ise/Cross
+ex:Cross rdf:type owl:NamedIndividual ,
+                  ex:ActionOption ,
+                  ex:OffsideConstrainedAction ;
+         ex:hasActionType ex:PassType ;
+         ex:limitedBy ex:OffsideRule ;
+         rdfs:label "Навес"@ru .
+
+
+###  http://example.org/football-ise/CrowdedSpace
+ex:CrowdedSpace rdf:type owl:NamedIndividual ,
+                         ex:SpaceAvailability ;
+                rdfs:label "Перегруженное пространство"@ru .
+
+
+###  http://example.org/football-ise/Ctx_1
+ex:Ctx_1 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_1 ;
+         ex:isCounterAttack "false"^^xsd:boolean ;
+         ex:matchMinute 67 ;
+         ex:scoreDiff 0 ;
+         rdfs:label "Контекст 1: Равная игра в середине второго тайма"@ru .
+
+
+###  http://example.org/football-ise/Ctx_10
+ex:Ctx_10 rdf:type owl:NamedIndividual ,
+                   ex:Context ;
+          ex:influences ex:Dec_10 ;
+          ex:isCounterAttack "false"^^xsd:boolean ;
+          ex:matchMinute 5 ;
+          ex:scoreDiff 0 ;
+          rdfs:label "Контекст 10: Начало матча, спокойное владение"@ru .
+
+
+###  http://example.org/football-ise/Ctx_2
+ex:Ctx_2 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_2 ;
+         ex:isCounterAttack "true"^^xsd:boolean ;
+         ex:matchMinute 12 ;
+         ex:scoreDiff -1 ;
+         rdfs:label "Контекст 2: Ранний гол соперника, поиск ответа"@ru .
+
+
+###  http://example.org/football-ise/Ctx_3
+ex:Ctx_3 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_3 ;
+         ex:isCounterAttack "false"^^xsd:boolean ;
+         ex:matchMinute 82 ;
+         ex:scoreDiff 1 ;
+         rdfs:label "Контекст 3: Лидерство в концовке матча"@ru .
+
+
+###  http://example.org/football-ise/Ctx_4
+ex:Ctx_4 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_4 ;
+         ex:isCounterAttack "false"^^xsd:boolean ;
+         ex:matchMinute 23 ;
+         ex:scoreDiff 0 ;
+         rdfs:label "Контекст 4: Ранняя стадия, поиск игры"@ru .
+
+
+###  http://example.org/football-ise/Ctx_5
+ex:Ctx_5 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_5 ;
+         ex:isCounterAttack "false"^^xsd:boolean ;
+         ex:matchMinute 55 ;
+         ex:scoreDiff -1 ;
+         rdfs:label "Контекст 5: Проигрываем, нужен гол"@ru .
+
+
+###  http://example.org/football-ise/Ctx_6
+ex:Ctx_6 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_6 ;
+         ex:isCounterAttack "true"^^xsd:boolean ;
+         ex:matchMinute 70 ;
+         ex:scoreDiff 0 ;
+         rdfs:label "Контекст 6: Перехват мяча в центре"@ru .
+
+
+###  http://example.org/football-ise/Ctx_7
+ex:Ctx_7 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_7 ;
+         ex:isCounterAttack "false"^^xsd:boolean ;
+         ex:matchMinute 88 ;
+         ex:scoreDiff 1 ;
+         rdfs:label "Контекст 7: Веду в счёте, сохранение результата"@ru .
+
+
+###  http://example.org/football-ise/Ctx_8
+ex:Ctx_8 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_8 ;
+         ex:isCounterAttack "false"^^xsd:boolean ;
+         ex:matchMinute 35 ;
+         ex:scoreDiff 0 ;
+         rdfs:label "Контекст 8: Застой в центре, поиск ширины"@ru .
+
+
+###  http://example.org/football-ise/Ctx_9
+ex:Ctx_9 rdf:type owl:NamedIndividual ,
+                  ex:Context ;
+         ex:influences ex:Dec_9 ;
+         ex:isCounterAttack "false"^^xsd:boolean ;
+         ex:matchMinute 65 ;
+         ex:scoreDiff 0 ;
+         rdfs:label "Контекст 9: Много владения, нет острых передач"@ru .
+
+
+###  http://example.org/football-ise/Dec_1
+ex:Dec_1 rdf:type owl:NamedIndividual ,
+                  ex:Decision ;
+         ex:basedOnEvaluation ex:Eval_1 ;
+         ex:chosenOption ex:Cross ;
+         ex:executes ex:Exec_1 ;
+         ex:decisionTime 1.2 ;
+         rdfs:label "Решение 1: Навесить в штрафную при фланговой атаке"@ru .
+
+
+###  http://example.org/football-ise/Dec_10
+ex:Dec_10 rdf:type owl:NamedIndividual ,
+                   ex:Decision ,
+                   ex:QuickPressureDecision ;
+          ex:basedOnEvaluation ex:Eval_10 ;
+          ex:chosenOption ex:BackPass ;
+          ex:executes ex:Exec_10 ;
+          ex:decisionTime 0.7 ;
+          rdfs:label "Решение 10: Вернуть мяч вратарю"@ru .
+
+
+###  http://example.org/football-ise/Dec_2
+ex:Dec_2 rdf:type owl:NamedIndividual ,
+                  ex:Decision ;
+         ex:basedOnEvaluation ex:Eval_2 ;
+         ex:chosenOption ex:ThroughBall ;
+         ex:executes ex:Exec_2 ;
+         ex:decisionTime 0.8 ;
+         rdfs:label "Решение 2: Отдать пас в разрез при контратаке"@ru .
+
+
+###  http://example.org/football-ise/Dec_3
+ex:Dec_3 rdf:type owl:NamedIndividual ,
+                  ex:Decision ;
+         ex:basedOnEvaluation ex:Eval_3 ;
+         ex:chosenOption ex:KeepPossession ;
+         ex:executes ex:Exec_3 ;
+         ex:decisionTime 2.1 ;
+         rdfs:label "Решение 3: Сохранить владение при низком блоке соперника"@ru .
+
+
+###  http://example.org/football-ise/Dec_4
+ex:Dec_4 rdf:type owl:NamedIndividual ,
+                  ex:Decision ;
+         ex:basedOnEvaluation ex:Eval_4 ;
+         ex:chosenOption ex:ShortPass ;
+         ex:executes ex:Exec_4 ;
+         ex:decisionTime 1.5 ;
+         rdfs:label "Решение 4: Отдать пас в центр"@ru .
+
+
+###  http://example.org/football-ise/Dec_5
+ex:Dec_5 rdf:type owl:NamedIndividual ,
+                  ex:Decision ;
+         ex:basedOnEvaluation ex:Eval_5 ;
+         ex:chosenOption ex:Interception ;
+         ex:executes ex:Exec_5 ;
+         ex:decisionTime 0.5 ;
+         rdfs:label "Решение 5: Включиться в прессинг"@ru .
+
+
+###  http://example.org/football-ise/Dec_6
+ex:Dec_6 rdf:type owl:NamedIndividual ,
+                  ex:Decision ,
+                  ex:EffectivePassingDecision ,
+                  ex:HighEfficiencyDecision ;
+         ex:basedOnEvaluation ex:Eval_6 ;
+         ex:chosenOption ex:ThroughBall ;
+         ex:executes ex:Exec_6 ;
+         ex:decisionTime 0.9 ;
+         rdfs:label "Решение 6: Отдать пас на ход"@ru .
+
+
+###  http://example.org/football-ise/Dec_7
+ex:Dec_7 rdf:type owl:NamedIndividual ,
+                  ex:Decision ;
+         ex:basedOnEvaluation ex:Eval_7 ;
+         ex:chosenOption ex:KeepPossession ;
+         ex:executes ex:Exec_7 ;
+         ex:decisionTime 2.5 ;
+         rdfs:label "Решение 7: Сохранить владение"@ru .
+
+
+###  http://example.org/football-ise/Dec_8
+ex:Dec_8 rdf:type owl:NamedIndividual ,
+                  ex:Decision ;
+         ex:basedOnEvaluation ex:Eval_8 ;
+         ex:chosenOption ex:Cross ;
+         ex:executes ex:Exec_8 ;
+         ex:decisionTime 1.8 ;
+         rdfs:label "Решение 8: Навесить в штрафную"@ru .
+
+
+###  http://example.org/football-ise/Dec_9
+ex:Dec_9 rdf:type owl:NamedIndividual ,
+                  ex:Decision ;
+         ex:basedOnEvaluation ex:Eval_9 ;
+         ex:chosenOption ex:LongShot ;
+         ex:executes ex:Exec_9 ;
+         ex:decisionTime 1.1 ;
+         rdfs:label "Решение 9: Пробить по воротам"@ru .
+
+
+###  http://example.org/football-ise/DefensiveOrg
+ex:DefensiveOrg rdf:type owl:NamedIndividual ,
+                         ex:Phase ;
+                rdfs:label "Организованная оборона"@ru .
+
+
+###  http://example.org/football-ise/DefensiveThird
+ex:DefensiveThird rdf:type owl:NamedIndividual ,
+                           ex:Zone ;
+                  rdfs:label "Защитная треть"@ru .
+
+
+###  http://example.org/football-ise/DefensiveType
+ex:DefensiveType rdf:type owl:NamedIndividual ,
+                          ex:ActionType ;
+                 rdfs:label "Тип: Оборона"@ru .
+
+
+###  http://example.org/football-ise/DoubleTeam
+ex:DoubleTeam rdf:type owl:NamedIndividual ,
+                       ex:PressureLevel ;
+              rdfs:label "Двойной опекун"@ru .
+
+
+###  http://example.org/football-ise/DribbleForward
+ex:DribbleForward rdf:type owl:NamedIndividual ,
+                           ex:ActionOption ;
+                  ex:hasActionType ex:DribbleType ;
+                  ex:limitedBy ex:Touchline ;
+                  rdfs:label "Дриблинг вперед"@ru .
+
+
+###  http://example.org/football-ise/DribbleInside
+ex:DribbleInside rdf:type owl:NamedIndividual ,
+                          ex:ActionOption ,
+                          ex:FoulConstrainedAction ;
+                 ex:hasActionType ex:DribbleType ;
+                 ex:limitedBy ex:FoulRule ;
+                 rdfs:label "Уйти в центр"@ru .
+
+
+###  http://example.org/football-ise/DribbleType
+ex:DribbleType rdf:type owl:NamedIndividual ,
+                        ex:ActionType ;
+               rdfs:label "Тип: Дриблинг"@ru .
+
+
+###  http://example.org/football-ise/Eval_1
+ex:Eval_1 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:BackPass ,
+                              ex:Cross ,
+                              ex:DribbleForward ,
+                              ex:ShortPass ;
+          ex:considersPressure ex:HighPress ;
+          ex:considersSpace ex:MediumSpace ;
+          ex:angleToGoal 22.0 ;
+          ex:distanceToNearestDefender 1.8 ;
+          ex:expectedValue 0.35 ;
+          ex:optionSuccessProbability 0.65 ;
+          ex:timePressure 0.80 ;
+          rdfs:label "Оценка 1: Фланговая атака с умеренным пространством"@ru .
+
+
+###  http://example.org/football-ise/Eval_10
+ex:Eval_10 rdf:type owl:NamedIndividual ,
+                    ex:SituationEvaluation ;
+           ex:considersOptions ex:BackPass ;
+           ex:considersPressure ex:ExtremePress ;
+           ex:considersSpace ex:NoSpace ;
+           ex:angleToGoal -10.0 ;
+           ex:distanceToNearestDefender 0.5 ;
+           ex:expectedValue 0.05 ;
+           ex:optionSuccessProbability 0.95 ;
+           ex:timePressure 0.95 ;
+           rdfs:label "Оценка 10: Прессинг у своих ворот"@ru .
+
+
+###  http://example.org/football-ise/Eval_2
+ex:Eval_2 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:LongShot ,
+                              ex:OneTwoPass ,
+                              ex:PowerShot ,
+                              ex:ThroughBall ;
+          ex:considersPressure ex:MidBlock ;
+          ex:considersSpace ex:HighSpace ;
+          ex:angleToGoal 28.5 ;
+          ex:distanceToNearestDefender 3.6 ;
+          ex:expectedValue 0.28 ;
+          ex:optionSuccessProbability 0.72 ;
+          ex:timePressure 0.40 ;
+          rdfs:label "Оценка 2: Переходная фаза с пространством для атаки"@ru .
+
+
+###  http://example.org/football-ise/Eval_3
+ex:Eval_3 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:BackPass ,
+                              ex:KeepPossession ,
+                              ex:LongPass ,
+                              ex:SwitchPlay ;
+          ex:considersPressure ex:LowBlock ;
+          ex:considersSpace ex:LowSpace ;
+          ex:angleToGoal 10.0 ;
+          ex:distanceToNearestDefender 1.2 ;
+          ex:expectedValue 0.12 ;
+          ex:optionSuccessProbability 0.85 ;
+          ex:timePressure 0.20 ;
+          rdfs:label "Оценка 3: Владение мячом против низкого блока"@ru .
+
+
+###  http://example.org/football-ise/Eval_4
+ex:Eval_4 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:ShortPass ;
+          ex:considersPressure ex:MidBlock ;
+          ex:considersSpace ex:CrowdedSpace ;
+          ex:angleToGoal 5.0 ;
+          ex:distanceToNearestDefender 2.0 ;
+          ex:expectedValue 0.15 ;
+          ex:optionSuccessProbability 0.6 ;
+          ex:timePressure 0.30 ;
+          rdfs:label "Оценка 4: Плотный центр"@ru .
+
+
+###  http://example.org/football-ise/Eval_5
+ex:Eval_5 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:Interception ;
+          ex:considersPressure ex:HighPress ;
+          ex:considersSpace ex:TightSpace ;
+          ex:angleToGoal 45.0 ;
+          ex:distanceToNearestDefender 0.8 ;
+          ex:expectedValue 0.45 ;
+          ex:optionSuccessProbability 0.4 ;
+          ex:timePressure 0.85 ;
+          rdfs:label "Оценка 5: Агрессивное давление на соперника"@ru .
+
+
+###  http://example.org/football-ise/Eval_6
+ex:Eval_6 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:ThroughBall ;
+          ex:considersPressure ex:LightPress ;
+          ex:considersSpace ex:OpenSpace ;
+          ex:angleToGoal 15.0 ;
+          ex:distanceToNearestDefender 5.0 ;
+          ex:expectedValue 0.65 ;
+          ex:optionSuccessProbability 0.7 ;
+          ex:timePressure 0.60 ;
+          rdfs:label "Оценка 6: Пространство для контратаки"@ru .
+
+
+###  http://example.org/football-ise/Eval_7
+ex:Eval_7 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:KeepPossession ;
+          ex:considersPressure ex:LowBlock ;
+          ex:considersSpace ex:MediumSpace ;
+          ex:angleToGoal 0.0 ;
+          ex:distanceToNearestDefender 3.5 ;
+          ex:expectedValue 0.10 ;
+          ex:optionSuccessProbability 0.9 ;
+          ex:timePressure 0.10 ;
+          rdfs:label "Оценка 7: Контроль мяча в обороне"@ru .
+
+
+###  http://example.org/football-ise/Eval_8
+ex:Eval_8 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:Cross ;
+          ex:considersPressure ex:ModeratePress ;
+          ex:considersSpace ex:ChannelSpace ;
+          ex:angleToGoal 30.0 ;
+          ex:distanceToNearestDefender 1.5 ;
+          ex:expectedValue 0.25 ;
+          ex:optionSuccessProbability 0.5 ;
+          ex:timePressure 0.50 ;
+          rdfs:label "Оценка 8: Фланговая атака"@ru .
+
+
+###  http://example.org/football-ise/Eval_9
+ex:Eval_9 rdf:type owl:NamedIndividual ,
+                   ex:SituationEvaluation ;
+          ex:considersOptions ex:LongShot ;
+          ex:considersPressure ex:ZonePress ;
+          ex:considersSpace ex:PocketSpace ;
+          ex:angleToGoal 20.0 ;
+          ex:distanceToNearestDefender 4.0 ;
+          ex:expectedValue 0.18 ;
+          ex:optionSuccessProbability 0.3 ;
+          ex:timePressure 0.70 ;
+          rdfs:label "Оценка 9: Карман для удара"@ru .
+
+
+###  http://example.org/football-ise/Exec_1
+ex:Exec_1 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_1 ;
+          rdfs:label "Исполнение 1: Навес с фланга в штрафную"@ru .
+
+
+###  http://example.org/football-ise/Exec_10
+ex:Exec_10 rdf:type owl:NamedIndividual ,
+                    ex:ActionExecution ;
+           ex:hasOutcome ex:Out_10 ;
+           rdfs:label "Исполнение 10: Короткий пас вратарю под давлением"@ru .
+
+
+###  http://example.org/football-ise/Exec_2
+ex:Exec_2 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_2 ;
+          rdfs:label "Исполнение 2: Пас в разрез нападающему"@ru .
+
+
+###  http://example.org/football-ise/Exec_3
+ex:Exec_3 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_3 ;
+          rdfs:label "Исполнение 3: Короткий пас для сохранения владения"@ru .
+
+
+###  http://example.org/football-ise/Exec_4
+ex:Exec_4 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_4 ;
+          rdfs:label "Исполнение 4: Короткий пас в центр под прессингом"@ru .
+
+
+###  http://example.org/football-ise/Exec_5
+ex:Exec_5 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_5 ;
+          rdfs:label "Исполнение 5: Агрессивный прессинг на защитника"@ru .
+
+
+###  http://example.org/football-ise/Exec_6
+ex:Exec_6 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_6 ;
+          rdfs:label "Исполнение 6: Длинный пас на ход вингеру"@ru .
+
+
+###  http://example.org/football-ise/Exec_7
+ex:Exec_7 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_7 ;
+          rdfs:label "Исполнение 7: Серия коротких пасов в обороне"@ru .
+
+
+###  http://example.org/football-ise/Exec_8
+ex:Exec_8 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_8 ;
+          rdfs:label "Исполнение 8: Навес с правого фланга в штрафную"@ru .
+
+
+###  http://example.org/football-ise/Exec_9
+ex:Exec_9 rdf:type owl:NamedIndividual ,
+                   ex:ActionExecution ;
+          ex:hasOutcome ex:Out_9 ;
+          rdfs:label "Исполнение 9: Удар из-за штрафной с дальней дистанции"@ru .
+
+
+###  http://example.org/football-ise/ExtremePress
+ex:ExtremePress rdf:type owl:NamedIndividual ,
+                         ex:PressureLevel ;
+                rdfs:label "Экстремальный прессинг"@ru .
+
+
+###  http://example.org/football-ise/Feint
+ex:Feint rdf:type owl:NamedIndividual ,
+                  ex:ActionOption ,
+                  ex:FoulConstrainedAction ;
+         ex:hasActionType ex:DribbleType ;
+         ex:limitedBy ex:FoulRule ;
+         rdfs:label "Финт"@ru .
+
+
+###  http://example.org/football-ise/FinalThird
+ex:FinalThird rdf:type owl:NamedIndividual ,
+                       ex:Phase ;
+              rdfs:label "Финальная треть"@ru .
+
+
+###  http://example.org/football-ise/FoulRule
+ex:FoulRule rdf:type owl:NamedIndividual ,
+                     ex:Constraint ;
+            ex:hasConstraintType ex:FoulType ;
+            ex:constraintSeverity 0.7 ;
+            rdfs:label "Правило фола"@ru .
+
+
+###  http://example.org/football-ise/FoulType
+ex:FoulType rdf:type owl:NamedIndividual ,
+                     ex:ConstraintType ;
+            rdfs:label "Тип: Нарушение"@ru .
+
+
+###  http://example.org/football-ise/FreeKickRule
+ex:FreeKickRule rdf:type owl:NamedIndividual ,
+                         ex:Constraint ;
+                ex:hasConstraintType ex:FoulType ;
+                ex:constraintSeverity 0.6 ;
+                rdfs:label "Правило свободного удара"@ru .
+
+
+###  http://example.org/football-ise/FreeSpace
+ex:FreeSpace rdf:type owl:NamedIndividual ,
+                      ex:SpaceAvailability ;
+             rdfs:label "Свободная зона"@ru .
+
+
+###  http://example.org/football-ise/FullPress
+ex:FullPress rdf:type owl:NamedIndividual ,
+                      ex:PressureLevel ;
+             rdfs:label "Полный прессинг"@ru .
+
+
+###  http://example.org/football-ise/GK1
+ex:GK1 rdf:type owl:NamedIndividual ,
+                ex:Player ;
+       ex:belongsToTeam ex:TeamA ;
+       ex:involvesPlayer ex:Sit_10 ,
+                         ex:Sit_7 ;
+       ex:madeByPlayer ex:Dec_10 ;
+       ex:playerPositionX 10.0 ;
+       ex:playerPositionY 50.0 ;
+       rdfs:label "Вратарь #1"@ru .
+
+
+###  http://example.org/football-ise/GoalKickRule
+ex:GoalKickRule rdf:type owl:NamedIndividual ,
+                         ex:Constraint ;
+                ex:hasConstraintType ex:BoundaryType ;
+                ex:constraintSeverity 0.3 ;
+                rdfs:label "Правило выхода от ворот"@ru .
+
+
+###  http://example.org/football-ise/GoalLine
+ex:GoalLine rdf:type owl:NamedIndividual ,
+                     ex:Constraint ;
+            ex:hasConstraintType ex:BoundaryType ;
+            ex:constraintSeverity 0.9 ;
+            rdfs:label "Линия ворот"@ru .
+
+
+###  http://example.org/football-ise/HalfPress
+ex:HalfPress rdf:type owl:NamedIndividual ,
+                      ex:PressureLevel ;
+             rdfs:label "Полупрессинг"@ru .
+
+
+###  http://example.org/football-ise/HalfSpace
+ex:HalfSpace rdf:type owl:NamedIndividual ,
+                      ex:SpaceAvailability ;
+             rdfs:label "Полупространство"@ru .
+
+
+###  http://example.org/football-ise/HalfwayLine
+ex:HalfwayLine rdf:type owl:NamedIndividual ,
+                        ex:Zone ;
+               rdfs:label "Центральная линия"@ru .
+
+
+###  http://example.org/football-ise/HandballRule
+ex:HandballRule rdf:type owl:NamedIndividual ,
+                         ex:Constraint ;
+                ex:hasConstraintType ex:FoulType ;
+                ex:constraintSeverity 0.8 ;
+                rdfs:label "Правило игры рукой"@ru .
+
+
+###  http://example.org/football-ise/HighPress
+ex:HighPress rdf:type owl:NamedIndividual ,
+                      ex:Phase ,
+                      ex:PressureLevel ;
+             rdfs:label "Высокий прессинг"@ru ,
+                        "Высокое давление"@ru .
+
+
+###  http://example.org/football-ise/HighSpace
+ex:HighSpace rdf:type owl:NamedIndividual ,
+                      ex:SpaceAvailability ;
+             rdfs:label "Много пространства"@ru .
+
+
+###  http://example.org/football-ise/Interception
+ex:Interception rdf:type owl:NamedIndividual ,
+                         ex:ActionOption ,
+                         ex:FoulConstrainedAction ;
+                ex:hasActionType ex:DefensiveType ;
+                ex:limitedBy ex:FoulRule ;
+                rdfs:label "Перехват"@ru .
+
+
+###  http://example.org/football-ise/KeepPossession
+ex:KeepPossession rdf:type owl:NamedIndividual ,
+                           ex:ActionOption ;
+                  ex:hasActionType ex:KeepType ;
+                  ex:limitedBy ex:TimeLimit ;
+                  rdfs:label "Сохранение владения"@ru .
+
+
+###  http://example.org/football-ise/KeepType
+ex:KeepType rdf:type owl:NamedIndividual ,
+                     ex:ActionType ;
+            rdfs:label "Тип: Сохранение"@ru .
+
+
+###  http://example.org/football-ise/LB3
+ex:LB3 rdf:type owl:NamedIndividual ,
+                ex:Player ;
+       ex:belongsToTeam ex:TeamA ;
+       ex:involvesPlayer ex:Sit_3 ,
+                         ex:Sit_7 ;
+       ex:madeByPlayer ex:Dec_3 ;
+       ex:playerPositionX 45.0 ;
+       ex:playerPositionY 25.0 ;
+       rdfs:label "Левый защитник #3"@ru .
+
+
+###  http://example.org/football-ise/LW11
+ex:LW11 rdf:type owl:NamedIndividual ,
+                 ex:Player ;
+        ex:belongsToTeam ex:TeamA ;
+        ex:involvesPlayer ex:Sit_3 ,
+                          ex:Sit_6 ;
+        ex:madeByPlayer ex:Dec_6 ;
+        ex:playerPositionX 75.0 ;
+        ex:playerPositionY 25.0 ;
+        rdfs:label "Левый вингер #11"@ru .
+
+
+###  http://example.org/football-ise/LeftChannel
+ex:LeftChannel rdf:type owl:NamedIndividual ,
+                        ex:Zone ;
+               rdfs:label "Левый коридор"@ru .
+
+
+###  http://example.org/football-ise/LeftCorner
+ex:LeftCorner rdf:type owl:NamedIndividual ,
+                       ex:Zone ;
+              rdfs:label "Левый угол"@ru .
+
+
+###  http://example.org/football-ise/LeftHalfspace
+ex:LeftHalfspace rdf:type owl:NamedIndividual ,
+                          ex:Zone ;
+                 rdfs:label "Левое полупространство"@ru .
+
+
+###  http://example.org/football-ise/LeftWing
+ex:LeftWing rdf:type owl:NamedIndividual ,
+                     ex:Zone ;
+            rdfs:label "Левый фланг"@ru .
+
+
+###  http://example.org/football-ise/LightPress
+ex:LightPress rdf:type owl:NamedIndividual ,
+                       ex:PressureLevel ;
+              rdfs:label "Легкое давление"@ru .
+
+
+###  http://example.org/football-ise/LongPass
+ex:LongPass rdf:type owl:NamedIndividual ,
+                     ex:ActionOption ,
+                     ex:OffsideConstrainedAction ;
+            ex:hasActionType ex:PassType ;
+            ex:limitedBy ex:OffsideRule ;
+            rdfs:label "Длинный пас"@ru .
+
+
+###  http://example.org/football-ise/LongShot
+ex:LongShot rdf:type owl:NamedIndividual ,
+                     ex:ActionOption ,
+                     ex:FoulConstrainedAction ;
+            ex:hasActionType ex:ShotType ;
+            ex:limitedBy ex:FoulRule ;
+            rdfs:label "Дальний удар"@ru .
+
+
+###  http://example.org/football-ise/LowBlock
+ex:LowBlock rdf:type owl:NamedIndividual ,
+                     ex:PressureLevel ;
+            rdfs:label "Низкий блок"@ru .
+
+
+###  http://example.org/football-ise/LowSpace
+ex:LowSpace rdf:type owl:NamedIndividual ,
+                     ex:SpaceAvailability ;
+            rdfs:label "Мало пространства"@ru .
+
+
+###  http://example.org/football-ise/ManPress
+ex:ManPress rdf:type owl:NamedIndividual ,
+                     ex:PressureLevel ;
+            rdfs:label "Персональная опека"@ru .
+
+
+###  http://example.org/football-ise/MediumSpace
+ex:MediumSpace rdf:type owl:NamedIndividual ,
+                        ex:SpaceAvailability ;
+               rdfs:label "Средне пространства"@ru .
+
+
+###  http://example.org/football-ise/MidBlock
+ex:MidBlock rdf:type owl:NamedIndividual ,
+                     ex:PressureLevel ;
+            rdfs:label "Средний блок"@ru .
+
+
+###  http://example.org/football-ise/MiddleThird
+ex:MiddleThird rdf:type owl:NamedIndividual ,
+                        ex:Zone ;
+               rdfs:label "Средняя треть"@ru .
+
+
+###  http://example.org/football-ise/MidfieldBattle
+ex:MidfieldBattle rdf:type owl:NamedIndividual ,
+                           ex:Phase ;
+                  rdfs:label "Борьба в центре"@ru .
+
+
+###  http://example.org/football-ise/MidfieldCenter
+ex:MidfieldCenter rdf:type owl:NamedIndividual ,
+                           ex:Zone ;
+                  rdfs:label "Центр поля"@ru .
+
+
+###  http://example.org/football-ise/ModeratePress
+ex:ModeratePress rdf:type owl:NamedIndividual ,
+                          ex:PressureLevel ;
+                 rdfs:label "Умеренное давление"@ru .
+
+
+###  http://example.org/football-ise/NoPress
+ex:NoPress rdf:type owl:NamedIndividual ,
+                    ex:PressureLevel ;
+           rdfs:label "Отсутствие давления"@ru .
+
+
+###  http://example.org/football-ise/NoSpace
+ex:NoSpace rdf:type owl:NamedIndividual ,
+                    ex:SpaceAvailability ;
+           rdfs:label "Нет пространства"@ru .
+
+
+###  http://example.org/football-ise/OffsideRule
+ex:OffsideRule rdf:type owl:NamedIndividual ,
+                        ex:Constraint ;
+               ex:hasConstraintType ex:OffsideType ;
+               ex:constraintSeverity 0.8 ;
+               rdfs:label "Правило офсайда"@ru .
+
+
+###  http://example.org/football-ise/OffsideType
+ex:OffsideType rdf:type owl:NamedIndividual ,
+                        ex:ConstraintType ;
+               rdfs:label "Тип: Офсайд"@ru .
+
+
+###  http://example.org/football-ise/OneTwoPass
+ex:OneTwoPass rdf:type owl:NamedIndividual ,
+                       ex:ActionOption ,
+                       ex:OffsideConstrainedAction ;
+              ex:hasActionType ex:PassType ;
+              ex:limitedBy ex:OffsideRule ;
+              rdfs:label "Стенка"@ru .
+
+
+###  http://example.org/football-ise/OpenSpace
+ex:OpenSpace rdf:type owl:NamedIndividual ,
+                      ex:SpaceAvailability ;
+             rdfs:label "Открытое пространство"@ru .
+
+
+###  http://example.org/football-ise/OppCB3
+ex:OppCB3 rdf:type owl:NamedIndividual ,
+                   ex:Player ;
+          ex:belongsToTeam ex:TeamB ;
+          ex:involvesPlayer ex:Sit_1 ,
+                            ex:Sit_2 ,
+                            ex:Sit_5 ;
+          ex:playerPositionX 60.0 ;
+          ex:playerPositionY 50.0 ;
+          rdfs:label "Центральный защитник соперника #3"@ru .
+
+
+###  http://example.org/football-ise/OppCB4
+ex:OppCB4 rdf:type owl:NamedIndividual ,
+                   ex:Player ;
+          ex:belongsToTeam ex:TeamB ;
+          ex:involvesPlayer ex:Sit_1 ,
+                            ex:Sit_3 ,
+                            ex:Sit_7 ;
+          ex:playerPositionX 60.0 ;
+          ex:playerPositionY 60.0 ;
+          rdfs:label "Центральный защитник соперника #4"@ru .
+
+
+###  http://example.org/football-ise/OppCDM6
+ex:OppCDM6 rdf:type owl:NamedIndividual ,
+                    ex:Player ;
+           ex:belongsToTeam ex:TeamB ;
+           ex:involvesPlayer ex:Sit_2 ,
+                             ex:Sit_4 ;
+           ex:playerPositionX 70.0 ;
+           ex:playerPositionY 50.0 ;
+           rdfs:label "Опорный полузащитник соперника #6"@ru .
+
+
+###  http://example.org/football-ise/OppCM7
+ex:OppCM7 rdf:type owl:NamedIndividual ,
+                   ex:Player ;
+          ex:belongsToTeam ex:TeamB ;
+          ex:involvesPlayer ex:Sit_4 ,
+                            ex:Sit_8 ;
+          ex:playerPositionX 75.0 ;
+          ex:playerPositionY 40.0 ;
+          rdfs:label "Центральный полузащитник соперника #7"@ru .
+
+
+###  http://example.org/football-ise/OppCM8
+ex:OppCM8 rdf:type owl:NamedIndividual ,
+                   ex:Player ;
+          ex:belongsToTeam ex:TeamB ;
+          ex:involvesPlayer ex:Sit_3 ,
+                            ex:Sit_6 ;
+          ex:playerPositionX 75.0 ;
+          ex:playerPositionY 60.0 ;
+          rdfs:label "Центральный полузащитник соперника #8"@ru .
+
+
+###  http://example.org/football-ise/OppGK1
+ex:OppGK1 rdf:type owl:NamedIndividual ,
+                   ex:Player ;
+          ex:belongsToTeam ex:TeamB ;
+          ex:involvesPlayer ex:Sit_3 ,
+                            ex:Sit_6 ,
+                            ex:Sit_9 ;
+          ex:playerPositionX 95.0 ;
+          ex:playerPositionY 50.0 ;
+          rdfs:label "Вратарь соперника #1"@ru .
+
+
+###  http://example.org/football-ise/OppLB5
+ex:OppLB5 rdf:type owl:NamedIndividual ,
+                   ex:Player ;
+          ex:belongsToTeam ex:TeamB ;
+          ex:involvesPlayer ex:Sit_3 ,
+                            ex:Sit_8 ;
+          ex:playerPositionX 55.0 ;
+          ex:playerPositionY 25.0 ;
+          rdfs:label "Левый защитник соперника #5"@ru .
+
+
+###  http://example.org/football-ise/OppLW11
+ex:OppLW11 rdf:type owl:NamedIndividual ,
+                    ex:Player ;
+           ex:belongsToTeam ex:TeamB ;
+           ex:involvesPlayer ex:Sit_6 ,
+                             ex:Sit_8 ;
+           ex:playerPositionX 85.0 ;
+           ex:playerPositionY 25.0 ;
+           rdfs:label "Левый вингер соперника #11"@ru .
+
+
+###  http://example.org/football-ise/OppRB2
+ex:OppRB2 rdf:type owl:NamedIndividual ,
+                   ex:Player ;
+          ex:belongsToTeam ex:TeamB ;
+          ex:involvesPlayer ex:Sit_1 ,
+                            ex:Sit_5 ;
+          ex:playerPositionX 55.0 ;
+          ex:playerPositionY 75.0 ;
+          rdfs:label "Правый защитник соперника #2"@ru .
+
+
+###  http://example.org/football-ise/OppRW9
+ex:OppRW9 rdf:type owl:NamedIndividual ,
+                   ex:Player ;
+          ex:belongsToTeam ex:TeamB ;
+          ex:involvesPlayer ex:Sit_1 ,
+                            ex:Sit_5 ;
+          ex:playerPositionX 85.0 ;
+          ex:playerPositionY 75.0 ;
+          rdfs:label "Правый вингер соперника #9"@ru .
+
+
+###  http://example.org/football-ise/OppST10
+ex:OppST10 rdf:type owl:NamedIndividual ,
+                    ex:Player ;
+           ex:belongsToTeam ex:TeamB ;
+           ex:involvesPlayer ex:Sit_2 ,
+                             ex:Sit_9 ;
+           ex:playerPositionX 90.0 ;
+           ex:playerPositionY 50.0 ;
+           rdfs:label "Нападающий соперника #10"@ru .
+
+
+###  http://example.org/football-ise/OutOfPossession
+ex:OutOfPossession rdf:type owl:NamedIndividual ,
+                            ex:Phase ;
+                   rdfs:label "Оборона без мяча"@ru .
+
+
+###  http://example.org/football-ise/Out_1
+ex:Out_1 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 1: Навес перехвачен защитником, угловой"@ru .
+
+
+###  http://example.org/football-ise/Out_10
+ex:Out_10 rdf:type owl:NamedIndividual ,
+                   ex:Outcome ;
+          rdfs:label "Исход 10: Опасная потеря у своих ворот"@ru .
+
+
+###  http://example.org/football-ise/Out_2
+ex:Out_2 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 2: Пас привел к выходу 1-в-1 и голу"@ru .
+
+
+###  http://example.org/football-ise/Out_3
+ex:Out_3 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 3: Владение сохранено, атака продолжается"@ru .
+
+
+###  http://example.org/football-ise/Out_4
+ex:Out_4 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 4: Потеря мяча в центре поля"@ru .
+
+
+###  http://example.org/football-ise/Out_5
+ex:Out_5 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 5: Вынужденная ошибка соперника, переход к атаке"@ru .
+
+
+###  http://example.org/football-ise/Out_6
+ex:Out_6 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 6: Быстрый прорыв, опасный момент у ворот"@ru .
+
+
+###  http://example.org/football-ise/Out_7
+ex:Out_7 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 7: Успешный розыгрыш, контроль темпа"@ru .
+
+
+###  http://example.org/football-ise/Out_8
+ex:Out_8 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 8: Навес в штрафную, срыв атаки"@ru .
+
+
+###  http://example.org/football-ise/Out_9
+ex:Out_9 rdf:type owl:NamedIndividual ,
+                  ex:Outcome ;
+         rdfs:label "Исход 9: Удар мимо ворот"@ru .
+
+
+###  http://example.org/football-ise/PassType
+ex:PassType rdf:type owl:NamedIndividual ,
+                     ex:ActionType ;
+            rdfs:label "Тип: Пас"@ru .
+
+
+###  http://example.org/football-ise/PenaltyArea
+ex:PenaltyArea rdf:type owl:NamedIndividual ,
+                        ex:Zone ;
+               rdfs:label "Штрафная"@ru .
+
+
+###  http://example.org/football-ise/PenaltyAreaRule
+ex:PenaltyAreaRule rdf:type owl:NamedIndividual ,
+                            ex:Constraint ;
+                   ex:hasConstraintType ex:BoundaryType ;
+                   ex:constraintSeverity 0.7 ;
+                   rdfs:label "Правило штрафной"@ru .
+
+
+###  http://example.org/football-ise/PenaltySpot
+ex:PenaltySpot rdf:type owl:NamedIndividual ,
+                        ex:Zone ;
+               rdfs:label "Одиннадцатиметровая отметка"@ru .
+
+
+###  http://example.org/football-ise/PlaceShot
+ex:PlaceShot rdf:type owl:NamedIndividual ,
+                      ex:ActionOption ,
+                      ex:OffsideConstrainedAction ;
+             ex:hasActionType ex:ShotType ;
+             ex:limitedBy ex:OffsideRule ;
+             rdfs:label "Точный удар"@ru .
+
+
+###  http://example.org/football-ise/PocketSpace
+ex:PocketSpace rdf:type owl:NamedIndividual ,
+                        ex:SpaceAvailability ;
+               rdfs:label "Карман"@ru .
+
+
+###  http://example.org/football-ise/Possession
+ex:Possession rdf:type owl:NamedIndividual ,
+                       ex:Phase ;
+              rdfs:label "Владение"@ru .
+
+
+###  http://example.org/football-ise/PowerShot
+ex:PowerShot rdf:type owl:NamedIndividual ,
+                      ex:ActionOption ,
+                      ex:FoulConstrainedAction ;
+             ex:hasActionType ex:ShotType ;
+             ex:limitedBy ex:FoulRule ;
+             rdfs:label "Сильный удар"@ru .
+
+
+###  http://example.org/football-ise/RB2
+ex:RB2 rdf:type owl:NamedIndividual ,
+                ex:Player ;
+       ex:belongsToTeam ex:TeamA ;
+       ex:involvesPlayer ex:Sit_1 ,
+                         ex:Sit_8 ;
+       ex:madeByPlayer ex:Dec_8 ;
+       ex:playerPositionX 45.0 ;
+       ex:playerPositionY 75.0 ;
+       rdfs:label "Правый защитник #2"@ru .
+
+
+###  http://example.org/football-ise/RedCard
+ex:RedCard rdf:type owl:NamedIndividual ,
+                    ex:Constraint ;
+           ex:hasConstraintType ex:CardType ;
+           ex:constraintSeverity 1.0 ;
+           rdfs:label "Красная карточка"@ru .
+
+
+###  http://example.org/football-ise/RightChannel
+ex:RightChannel rdf:type owl:NamedIndividual ,
+                         ex:Zone ;
+                rdfs:label "Правый коридор"@ru .
+
+
+###  http://example.org/football-ise/RightCorner
+ex:RightCorner rdf:type owl:NamedIndividual ,
+                        ex:Zone ;
+               rdfs:label "Правый угол"@ru .
+
+
+###  http://example.org/football-ise/RightFlank
+ex:RightFlank rdf:type owl:NamedIndividual ,
+                       ex:Zone ;
+              rdfs:label "Правый фланг"@ru .
+
+
+###  http://example.org/football-ise/RightHalfspace
+ex:RightHalfspace rdf:type owl:NamedIndividual ,
+                           ex:Zone ;
+                  rdfs:label "Правое полупространство"@ru .
+
+
+###  http://example.org/football-ise/SetPiece
+ex:SetPiece rdf:type owl:NamedIndividual ,
+                     ex:Phase ;
+            rdfs:label "Стандартное положение"@ru .
+
+
+###  http://example.org/football-ise/SetPieceDef
+ex:SetPieceDef rdf:type owl:NamedIndividual ,
+                        ex:Phase ;
+               rdfs:label "Оборона при стандарте"@ru .
+
+
+###  http://example.org/football-ise/ShortPass
+ex:ShortPass rdf:type owl:NamedIndividual ,
+                      ex:ActionOption ,
+                      ex:OffsideConstrainedAction ;
+             ex:hasActionType ex:PassType ;
+             ex:limitedBy ex:OffsideRule ;
+             rdfs:label "Короткий пас"@ru .
+
+
+###  http://example.org/football-ise/ShotType
+ex:ShotType rdf:type owl:NamedIndividual ,
+                     ex:ActionType ;
+            rdfs:label "Тип: Удар"@ru .
+
+
+###  http://example.org/football-ise/Sit_1
+ex:Sit_1 rdf:type owl:NamedIndividual ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_1 ;
+         ex:hasPhase ex:WingPlay ;
+         ex:isCharacterizedBy ex:Eval_1 ;
+         ex:occursInZone ex:RightFlank ;
+         ex:offersOption ex:BackPass ,
+                         ex:Cross ,
+                         ex:DribbleForward ,
+                         ex:ShortPass ;
+         ex:subjectToConstraint ex:FoulRule ,
+                                ex:OffsideRule ,
+                                ex:Touchline ;
+         rdfs:label "Ситуация 1: Фланговая атака на правом краю"@ru .
+
+
+###  http://example.org/football-ise/Sit_10
+ex:Sit_10 rdf:type owl:NamedIndividual ,
+                   ex:Situation ;
+          ex:hasContext ex:Ctx_10 ;
+          ex:hasPhase ex:BuildUp ;
+          ex:isCharacterizedBy ex:Eval_10 ;
+          ex:occursInZone ex:DefensiveThird ;
+          ex:offersOption ex:BackPass ;
+          ex:subjectToConstraint ex:BackPassRule ;
+          rdfs:label "Ситуация 10: Вратарь с мячом, начало атаки"@ru .
+
+
+###  http://example.org/football-ise/Sit_2
+ex:Sit_2 rdf:type owl:NamedIndividual ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_2 ;
+         ex:hasPhase ex:Transition ;
+         ex:isCharacterizedBy ex:Eval_2 ;
+         ex:occursInZone ex:Zone14 ;
+         ex:offersOption ex:LongShot ,
+                         ex:OneTwoPass ,
+                         ex:PowerShot ,
+                         ex:ThroughBall ;
+         ex:subjectToConstraint ex:FoulRule ,
+                                ex:OffsideRule ,
+                                ex:TimeLimit ;
+         rdfs:label "Ситуация 2: Момент для удара из зоны 14"@ru .
+
+
+###  http://example.org/football-ise/Sit_3
+ex:Sit_3 rdf:type owl:NamedIndividual ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_3 ;
+         ex:hasPhase ex:Possession ;
+         ex:isCharacterizedBy ex:Eval_3 ;
+         ex:occursInZone ex:LeftHalfspace ;
+         ex:offersOption ex:BackPass ,
+                         ex:KeepPossession ,
+                         ex:LongPass ,
+                         ex:SwitchPlay ;
+         ex:subjectToConstraint ex:BackPassRule ,
+                                ex:OffsideRule ,
+                                ex:Touchline ;
+         rdfs:label "Ситуация 3: Контроль мяча в левом полупространстве"@ru .
+
+
+###  http://example.org/football-ise/Sit_4
+ex:Sit_4 rdf:type owl:NamedIndividual ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_4 ;
+         ex:hasPhase ex:BuildUp ;
+         ex:isCharacterizedBy ex:Eval_4 ;
+         ex:occursInZone ex:MidfieldCenter ;
+         ex:offersOption ex:ShortPass ;
+         ex:subjectToConstraint ex:FoulRule ;
+         rdfs:label "Ситуация 4: Построение атаки через центр"@ru .
+
+
+###  http://example.org/football-ise/Sit_5
+ex:Sit_5 rdf:type owl:NamedIndividual ,
+                  ex:ChallengingSituation ,
+                  ex:CriticalAttackingSituation ,
+                  ex:PromisingSituation ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_5 ;
+         ex:hasPhase ex:HighPress ;
+         ex:isCharacterizedBy ex:Eval_5 ;
+         ex:occursInZone ex:AttackingThird ;
+         ex:offersOption ex:Interception ;
+         ex:subjectToConstraint ex:FoulRule ;
+         rdfs:label "Ситуация 5: Организованный прессинг в атаке"@ru .
+
+
+###  http://example.org/football-ise/Sit_6
+ex:Sit_6 rdf:type owl:NamedIndividual ,
+                  ex:CriticalAttackingSituation ,
+                  ex:PromisingSituation ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_6 ;
+         ex:hasPhase ex:CounterAttack ;
+         ex:isCharacterizedBy ex:Eval_6 ;
+         ex:occursInZone ex:MiddleThird ;
+         ex:offersOption ex:ThroughBall ;
+         ex:subjectToConstraint ex:OffsideRule ;
+         rdfs:label "Ситуация 6: Момент для быстрой контратаки"@ru .
+
+
+###  http://example.org/football-ise/Sit_7
+ex:Sit_7 rdf:type owl:NamedIndividual ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_7 ;
+         ex:hasPhase ex:Possession ;
+         ex:isCharacterizedBy ex:Eval_7 ;
+         ex:occursInZone ex:DefensiveThird ;
+         ex:offersOption ex:KeepPossession ;
+         ex:subjectToConstraint ex:BackPassRule ;
+         rdfs:label "Ситуация 7: Удержание мяча у своих ворот"@ru .
+
+
+###  http://example.org/football-ise/Sit_8
+ex:Sit_8 rdf:type owl:NamedIndividual ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_8 ;
+         ex:hasPhase ex:WingPlay ;
+         ex:isCharacterizedBy ex:Eval_8 ;
+         ex:occursInZone ex:RightFlank ;
+         ex:offersOption ex:Cross ;
+         ex:subjectToConstraint ex:Touchline ;
+         rdfs:label "Ситуация 8: Атака по правому флангу"@ru .
+
+
+###  http://example.org/football-ise/Sit_9
+ex:Sit_9 rdf:type owl:NamedIndividual ,
+                  ex:Situation ;
+         ex:hasContext ex:Ctx_9 ;
+         ex:hasPhase ex:FinalThird ;
+         ex:isCharacterizedBy ex:Eval_9 ;
+         ex:occursInZone ex:Zone14 ;
+         ex:offersOption ex:LongShot ;
+         ex:subjectToConstraint ex:FoulRule ;
+         rdfs:label "Ситуация 9: Мяч в зоне 14"@ru .
+
+
+###  http://example.org/football-ise/SixYardBox
+ex:SixYardBox rdf:type owl:NamedIndividual ,
+                       ex:Zone ;
+              rdfs:label "Вратарская площадка"@ru .
+
+
+###  http://example.org/football-ise/Striker9
+ex:Striker9 rdf:type owl:NamedIndividual ,
+                     ex:Player ;
+            ex:belongsToTeam ex:TeamA ;
+            ex:involvesPlayer ex:Sit_1 ,
+                              ex:Sit_2 ,
+                              ex:Sit_5 ,
+                              ex:Sit_9 ;
+            ex:playerPositionX 85.0 ;
+            ex:playerPositionY 50.0 ;
+            rdfs:label "Нападающий #9"@ru .
+
+
+###  http://example.org/football-ise/SubstitutionRule
+ex:SubstitutionRule rdf:type owl:NamedIndividual ,
+                             ex:Constraint ;
+                    ex:hasConstraintType ex:TimeType ;
+                    ex:constraintSeverity 0.4 ;
+                    rdfs:label "Правило замены"@ru .
+
+
+###  http://example.org/football-ise/SwitchPlay
+ex:SwitchPlay rdf:type owl:NamedIndividual ,
+                       ex:ActionOption ;
+              ex:hasActionType ex:KeepType ;
+              ex:limitedBy ex:Touchline ;
+              rdfs:label "Перевод фланга"@ru .
+
+
+###  http://example.org/football-ise/Tackle
+ex:Tackle rdf:type owl:NamedIndividual ,
+                   ex:ActionOption ,
+                   ex:FoulConstrainedAction ;
+          ex:hasActionType ex:DefensiveType ;
+          ex:limitedBy ex:FoulRule ;
+          rdfs:label "Отбор мяча"@ru .
+
+
+###  http://example.org/football-ise/TeamA
+ex:TeamA rdf:type owl:NamedIndividual ,
+                  ex:Team ;
+         rdfs:label "Команда A"@ru .
+
+
+###  http://example.org/football-ise/TeamB
+ex:TeamB rdf:type owl:NamedIndividual ,
+                  ex:Team ;
+         rdfs:label "Команда B"@ru .
+
+
+###  http://example.org/football-ise/ThroughBall
+ex:ThroughBall rdf:type owl:NamedIndividual ,
+                        ex:ActionOption ,
+                        ex:OffsideConstrainedAction ;
+               ex:hasActionType ex:PassType ;
+               ex:limitedBy ex:OffsideRule ;
+               rdfs:label "Пас в разрез"@ru .
+
+
+###  http://example.org/football-ise/ThrowInRule
+ex:ThrowInRule rdf:type owl:NamedIndividual ,
+                        ex:Constraint ;
+               ex:hasConstraintType ex:BoundaryType ;
+               ex:constraintSeverity 0.3 ;
+               rdfs:label "Правило вбрасывания"@ru .
+
+
+###  http://example.org/football-ise/TightSpace
+ex:TightSpace rdf:type owl:NamedIndividual ,
+                       ex:SpaceAvailability ;
+              rdfs:label "Тесное пространство"@ru .
+
+
+###  http://example.org/football-ise/TimeLimit
+ex:TimeLimit rdf:type owl:NamedIndividual ,
+                      ex:Constraint ;
+             ex:hasConstraintType ex:TimeType ;
+             ex:constraintSeverity 0.5 ;
+             rdfs:label "Ограничение времени"@ru .
+
+
+###  http://example.org/football-ise/TimeType
+ex:TimeType rdf:type owl:NamedIndividual ,
+                     ex:ConstraintType ;
+            rdfs:label "Тип: Время"@ru .
+
+
+###  http://example.org/football-ise/Touchline
+ex:Touchline rdf:type owl:NamedIndividual ,
+                      ex:Constraint ;
+             ex:hasConstraintType ex:BoundaryType ;
+             ex:constraintSeverity 0.6 ;
+             rdfs:label "Линия аута"@ru .
+
+
+###  http://example.org/football-ise/Transition
+ex:Transition rdf:type owl:NamedIndividual ,
+                       ex:Phase ;
+              rdfs:label "Переход"@ru .
+
+
+###  http://example.org/football-ise/TransitionDef
+ex:TransitionDef rdf:type owl:NamedIndividual ,
+                          ex:Phase ;
+                 rdfs:label "Оборона при переходе"@ru .
+
+
+###  http://example.org/football-ise/Volley
+ex:Volley rdf:type owl:NamedIndividual ,
+                   ex:ActionOption ,
+                   ex:OffsideConstrainedAction ;
+          ex:hasActionType ex:ShotType ;
+          ex:limitedBy ex:OffsideRule ;
+          rdfs:label "Удар с лета"@ru .
+
+
+###  http://example.org/football-ise/WideSpace
+ex:WideSpace rdf:type owl:NamedIndividual ,
+                      ex:SpaceAvailability ;
+             rdfs:label "Широкое пространство"@ru .
+
+
+###  http://example.org/football-ise/WingPlay
+ex:WingPlay rdf:type owl:NamedIndividual ,
+                     ex:Phase ;
+            rdfs:label "Игра по флангам"@ru .
+
+
+###  http://example.org/football-ise/Winger7
+ex:Winger7 rdf:type owl:NamedIndividual ,
+                    ex:Player ;
+           ex:belongsToTeam ex:TeamA ;
+           ex:involvesPlayer ex:Sit_1 ,
+                             ex:Sit_8 ;
+           ex:madeByPlayer ex:Dec_1 ;
+           ex:playerPositionX 75.0 ;
+           ex:playerPositionY 15.0 ;
+           rdfs:label "Крайний полузащитник #7"@ru .
+
+
+###  http://example.org/football-ise/YellowCard
+ex:YellowCard rdf:type owl:NamedIndividual ,
+                       ex:Constraint ;
+              ex:hasConstraintType ex:CardType ;
+              ex:constraintSeverity 0.6 ;
+              rdfs:label "Желтая карточка"@ru .
+
+
+###  http://example.org/football-ise/Zone14
+ex:Zone14 rdf:type owl:NamedIndividual ,
+                   ex:Zone ;
+          rdfs:label "Зона 14"@ru .
+
+
+###  http://example.org/football-ise/ZonePress
+ex:ZonePress rdf:type owl:NamedIndividual ,
+                      ex:PressureLevel ;
+             rdfs:label "Зонный прессинг"@ru .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+ex:a rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:c rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:sev rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:d rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:e rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:ev rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:prob rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:time rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:pressure rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:s rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+ex:tpressure rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S7" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:ActionOption ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:a
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:limitedBy ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> ex:a ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> ex:c
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:constraintSeverity ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> ex:c ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> ex:sev
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:hasConstraintType ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument1> ex:c ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument2> ex:FoulType
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                rdf:first ex:sev ;
+                                                                                                                                                rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                           rdf:first 0.3 ;
+                                                                                                                                                           rdf:rest rdf:nil
+                                                                                                                                                         ]
+                                                                                                                                              ]
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#classPredicate> ex:Constraint ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument1> ex:c
+                                                                                                            ] ;
+                                                                                                  rdf:rest rdf:nil
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:FoulConstrainedAction ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:a
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S6" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:Situation ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:s
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:isCharacterizedBy ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> ex:s ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> ex:e
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:considersSpace ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> ex:TightSpace
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:considersPressure ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument2> ex:HighPress
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:timePressure ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument2> ex:tpressure
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                           rdf:first ex:tpressure ;
+                                                                                                                                                           rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                                      rdf:first 0.6 ;
+                                                                                                                                                                      rdf:rest rdf:nil
+                                                                                                                                                                    ]
+                                                                                                                                                         ]
+                                                                                                            ] ;
+                                                                                                  rdf:rest rdf:nil
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:ChallengingSituation ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:s
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S4" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:Situation ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:s
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:isCharacterizedBy ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> ex:s ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> ex:e
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:expectedValue ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> ex:ev
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                     rdf:first ex:ev ;
+                                                                                                                                     rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                rdf:first 0.35 ;
+                                                                                                                                                rdf:rest rdf:nil
+                                                                                                                                              ]
+                                                                                                                                   ]
+                                                                                      ] ;
+                                                                            rdf:rest rdf:nil
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:PromisingSituation ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:s
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S1" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:Situation ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:s
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:isCharacterizedBy ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> ex:s ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> ex:e
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:expectedValue ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> ex:ev
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                     rdf:first ex:ev ;
+                                                                                                                                     rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                rdf:first 0.4 ;
+                                                                                                                                                rdf:rest rdf:nil
+                                                                                                                                              ]
+                                                                                                                                   ]
+                                                                                      ] ;
+                                                                            rdf:rest rdf:nil
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:CriticalAttackingSituation ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:s
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S8" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:ActionOption ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:a
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:limitedBy ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> ex:a ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> ex:c
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#classPredicate> ex:Constraint ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> ex:c
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:constraintSeverity ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument1> ex:c ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument2> ex:sev
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                rdf:first ex:sev ;
+                                                                                                                                                rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                           rdf:first 0.7 ;
+                                                                                                                                                           rdf:rest rdf:nil
+                                                                                                                                                         ]
+                                                                                                                                              ]
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:hasConstraintType ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument1> ex:c ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument2> ex:OffsideType
+                                                                                                            ] ;
+                                                                                                  rdf:rest rdf:nil
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:OffsideConstrainedAction ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:a
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S5" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:Decision ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:d
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:chosenOption ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> ex:d ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> ex:ThroughBall
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:basedOnEvaluation ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> ex:d ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> ex:e
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:expectedValue ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument2> ex:ev
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                rdf:first ex:ev ;
+                                                                                                                                                rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                           rdf:first 0.35 ;
+                                                                                                                                                           rdf:rest rdf:nil
+                                                                                                                                                         ]
+                                                                                                                                              ]
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:optionSuccessProbability ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument2> ex:prob
+                                                                                                            ] ;
+                                                                                                  rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                             rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                                      rdf:first ex:prob ;
+                                                                                                                                                                      rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                                                 rdf:first 0.65 ;
+                                                                                                                                                                                 rdf:rest rdf:nil
+                                                                                                                                                                               ]
+                                                                                                                                                                    ]
+                                                                                                                       ] ;
+                                                                                                             rdf:rest rdf:nil
+                                                                                                           ]
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:EffectivePassingDecision ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:d
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S2" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:Decision ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:d
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:basedOnEvaluation ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> ex:d ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> ex:e
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:expectedValue ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> ex:ev
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                     rdf:first ex:ev ;
+                                                                                                                                     rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                rdf:first 0.4 ;
+                                                                                                                                                rdf:rest rdf:nil
+                                                                                                                                              ]
+                                                                                                                                   ]
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:optionSuccessProbability ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument2> ex:prob
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                           rdf:first ex:prob ;
+                                                                                                                                                           rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                                      rdf:first 0.6 ;
+                                                                                                                                                                      rdf:rest rdf:nil
+                                                                                                                                                                    ]
+                                                                                                                                                         ]
+                                                                                                            ] ;
+                                                                                                  rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                             rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:decisionTime ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#argument1> ex:d ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#argument2> ex:time
+                                                                                                                       ] ;
+                                                                                                             rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                        rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#lessThan> ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                                                 rdf:first ex:time ;
+                                                                                                                                                                                 rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                                                            rdf:first 2.0 ;
+                                                                                                                                                                                            rdf:rest rdf:nil
+                                                                                                                                                                                          ]
+                                                                                                                                                                               ]
+                                                                                                                                  ] ;
+                                                                                                                        rdf:rest rdf:nil
+                                                                                                                      ]
+                                                                                                           ]
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:HighEfficiencyDecision ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:d
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S3" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:Decision ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:d
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:basedOnEvaluation ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> ex:d ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> ex:e
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:timePressure ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> ex:pressure
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                     rdf:first ex:pressure ;
+                                                                                                                                     rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                rdf:first 0.7 ;
+                                                                                                                                                rdf:rest rdf:nil
+                                                                                                                                              ]
+                                                                                                                                   ]
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:decisionTime ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument1> ex:d ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument2> ex:time
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#lessThan> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                           rdf:first ex:time ;
+                                                                                                                                                           rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                                      rdf:first 1.0 ;
+                                                                                                                                                                      rdf:rest rdf:nil
+                                                                                                                                                                    ]
+                                                                                                                                                         ]
+                                                                                                            ] ;
+                                                                                                  rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                             rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom> ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#propertyPredicate> ex:optionSuccessProbability ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#argument1> ex:e ;
+                                                                                                                         <http://www.w3.org/2003/11/swrl#argument2> ex:prob
+                                                                                                                       ] ;
+                                                                                                             rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                                        rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#BuiltinAtom> ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#builtin> <http://www.w3.org/2003/11/swrlb#greaterThan> ;
+                                                                                                                                    <http://www.w3.org/2003/11/swrl#arguments> [ rdf:type rdf:List ;
+                                                                                                                                                                                 rdf:first ex:prob ;
+                                                                                                                                                                                 rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                                                                            rdf:first 0.5 ;
+                                                                                                                                                                                            rdf:rest rdf:nil
+                                                                                                                                                                                          ]
+                                                                                                                                                                               ]
+                                                                                                                                  ] ;
+                                                                                                                        rdf:rest rdf:nil
+                                                                                                                      ]
+                                                                                                           ]
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> ex:QuickPressureDecision ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> ex:d
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

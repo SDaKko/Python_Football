@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Футбольная онтология - Анализ решений</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .menu {
+            padding: 30px;
+        }
+
+        .query-button {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            margin: 12px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 16px;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .query-button:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .query-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .query-description {
+            display: inline-block;
+            vertical-align: middle;
+            width: calc(100% - 50px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Футбольная аналитика</h1>
+            <p>Система анализа решений игроков на основе онтологической модели наблюдения -> оценки -> решения -> исполнения -> исхода</p>
+            <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">
+                С возможностью фильтрации данных
+            </p>
+        </div>
+
+        <div class="menu">
+            <form action="/decisions_by_context" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">1</span>
+                    <span class="query-description">Анализ решений по контексту матча</span>
+                </button>
+            </form>
+
+            <form action="/action_effectiveness" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">2</span>
+                    <span class="query-description">Эффективность различных типов действий</span>
+                </button>
+            </form>
+
+            <form action="/pressure_analysis" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">3</span>
+                    <span class="query-description">Влияние давления на принятие решений</span>
+                </button>
+            </form>
+
+            <form action="/coaching_influence" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">4</span>
+                    <span class="query-description">Влияние установок тренера</span>
+                </button>
+            </form>
+
+            <form action="/constraints" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">5</span>
+                    <span class="query-description">Ограничения и их влияние на действия</span>
+                </button>
+            </form>
+
+            <form action="/spatial_analysis" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">6</span>
+                    <span class="query-description">Пространственный анализ ситуаций</span>
+                </button>
+            </form>
+
+            <form action="/observation_chain" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">7</span>
+                    <span class="query-description">Цепочка от наблюдения до исхода</span>
+                </button>
+            </form>
+
+            <form action="/player_roles" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">8</span>
+                    <span class="query-description">Анализ игроков и их ролей</span>
+                </button>
+            </form>
+
+            <form action="/phase_analysis" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">9</span>
+                    <span class="query-description">Анализ решений по фазам игры</span>
+                </button>
+            </form>
+
+            <form action="/high_value_situations" method="get">
+                <button type="submit" class="query-button">
+                    <span class="query-number">10</span>
+                    <span class="query-description">Ситуации с высоким ожидаемым значением</span>
+                </button>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
